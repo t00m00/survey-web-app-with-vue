@@ -6,8 +6,10 @@ const helloComponent = {
     }
   },
   template: `
-    <p>Hello!</p>
-    <pre>{{ $data }}</pre>
+    <div>
+      <p>Hello!</p>
+      <pre>{{ $data }}</pre>
+    </div>
   `,
   methods: {
     dummyComponentMethod() {

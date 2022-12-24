@@ -4,17 +4,23 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vue.js 3</title>
+  <title>Vue.js 2</title>
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
   <div id="app">
-    <hello-component></hello-component>
-    <hello-component></hello-component>
-    <hello-component></hello-component>
-    {{ $data }}
+    <v-app>
+      <v-btn>
+        Button
+      </v-btn>
+      <survey-page></survey-page>
+      {{ $data }}
+    </v-app>
   </div>
-  <script src="https://unpkg.com/vue@3.1.5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>

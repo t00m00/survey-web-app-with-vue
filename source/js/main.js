@@ -1,20 +1,20 @@
-import helloComponent from './components/helloComponent.js'
+import surveyPage from './components/surveyPage.js'
 
-const app = Vue.createApp({
+new Vue({
+  el: '#app',
+  vuetify: new Vuetify(),
+  components: {
+    'survey-page': surveyPage,
+  },  
   data() {
     return {
       a: 1,
       b: 2
     }
   },
-  components: {
-    'hello-component': helloComponent,
-
-  },
   methods: {
     dummy() {
       
-    }
-  }  
+    } 
+  }
 })
-app.mount('#app')
