@@ -8,13 +8,6 @@ new Vue({
   },  
   data() {
     return {
-      a: 1,
-      b: 2
     }
   },
-  methods: {
-    dummy() {
-      
-    } 
-  }
 })
