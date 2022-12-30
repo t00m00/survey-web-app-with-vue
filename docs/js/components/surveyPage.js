@@ -11,6 +11,7 @@ const surveyPage = {
       name: `no name`,
       totalScore: 0,
       maxTotalScore: 0,
+      editMode: false,
       assessmentGetter: () => { return {} },
       assessmentRestorer: () => {},
     }
@@ -28,11 +29,13 @@ const surveyPage = {
               label="名前"
               color="green"
               clearable
-            ></v-text-field>
+            >
+            </v-text-field>
           </v-col>
         </v-row>
       </v-container>
       <survey-page-assessment
+        :editMode="editMode"
         @notify-assessments-getter="assessmentGetter = $event"
         @notify-restorer="assessmentRestorer = $event"
         @notify-max-total-score="maxTotalScore = $event"
@@ -51,6 +54,11 @@ const surveyPage = {
             </v-btn>
           </v-col>
           <v-col class="d-flex justify-end"">
+            <v-btn
+              @click="edit"
+            >
+              {{ editMode ? "編集中" : "編集" }}
+            </v-btn>
             <v-btn
               @click="restore"
             >
@@ -81,6 +89,9 @@ const surveyPage = {
       // 🌟保存されているデータ一覧の表示から再開する 22/12/24🌟
       const keyLength = localStorage.length
       return localStorage.length
+    },
+    edit() {
+      this.editMode = !this.editMode
     },
     save(assessments) {
       const surveyPage = {
