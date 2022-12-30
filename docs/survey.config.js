@@ -2,7 +2,7 @@ const config = {
   assessments: [
     {
       perspective: '技術力があるか', // 評価項目
-      maxScore: 5, // 最大点数
+      maxScore: 8, // 最大点数
       value: 0, // 点数
     },
     {
@@ -40,7 +40,7 @@ const config = {
       perspective: 'コミュニケーションがとれるか',
       maxScore: 5,
       value: 0,
-    },      
+    },
   ],
 }
 

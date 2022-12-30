@@ -4,7 +4,7 @@
 [https://t00m00.github.io/survey-web-app-with-vue/](https://t00m00.github.io/survey-web-app-with-vue/)
 
 ## feature
-* Automatic saving of responses (by localStorage)
+* Automatic saving of responses (at localStorage)
 * Deletion of saved data
 * Output of the `json` file of the response content
 

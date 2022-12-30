@@ -1,10 +1,9 @@
-// TODO: configを読み込むクラスを作成する
-import config from './../../survey.config.js'
+import appConfig from './appConfig.js'
 
 const surveyPageAssessment = {
   data() {
     return {
-      assessments: config.assessments
+      assessments: appConfig.assessments
     }
   },
   template: `
@@ -23,7 +22,7 @@ const surveyPageAssessment = {
             <v-card-text dense>
               <v-slider
                 class="text-h6"
-                v-model="item.value"          
+                v-model="item.value"
                 :tick-labels="Array.from(Array(item.maxScore + 1), (el, index) => index + '')"
                 color="green"
                 :max="item.maxScore"

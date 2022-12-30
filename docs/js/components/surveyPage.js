@@ -29,7 +29,7 @@ const surveyPage = {
               color="green"
               clearable
             ></v-text-field>
-          </v-col>        
+          </v-col>
         </v-row>
       </v-container>
       <survey-page-assessment
@@ -48,7 +48,7 @@ const surveyPage = {
               @click="exportAssessments(name)"
             >
               エクスポート
-            </v-btn>           
+            </v-btn>
           </v-col>
           <v-col class="d-flex justify-end"">
             <v-btn
@@ -70,16 +70,13 @@ const surveyPage = {
               >
                 保存データを削除する
               </v-btn>
-            </v-menu>                    
+            </v-menu>
           </v-col>
         </v-row>
-      </v-container>      
+      </v-container>
     </div>
   `,
   methods: {
-    dummyComponentMethod() {
-      console.log('🤯button event')
-    },
     localStorageList() {
       // 🌟保存されているデータ一覧の表示から再開する 22/12/24🌟
       const keyLength = localStorage.length
@@ -113,7 +110,7 @@ const surveyPage = {
         // TODO: 別クラスへ独立させるリファクタリングをする
         // Chromium系ブラウザのみサポート
         const fileSystemHandle = await window.showSaveFilePicker(
-          { 
+          {
             suggestedName: `${fileName}.json`
           })
 
@@ -129,8 +126,8 @@ const surveyPage = {
 
         const stream = await fileSystemHandle.createWritable()
         await stream.write(blob)
-        await stream.close()
-        
+        await stream.close
+
         console.log(`success: エクスポート. ${fileName}`)
       }
       catch(ex) {
@@ -138,7 +135,7 @@ const surveyPage = {
         console.log(ex)
       }
     },
-  } 
+  }
 }
 
 export default surveyPage
