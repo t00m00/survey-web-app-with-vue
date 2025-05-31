@@ -8,6 +8,7 @@ const surveyPageAssessment = {
       required: true,
     },
   },
+  emits: ['notify-max-total-score', 'notify-restorer', 'notify-assessments-getter', 'update-total-score', 'update-assessments'],
   data() {
     return {
       assessments: assts.values,

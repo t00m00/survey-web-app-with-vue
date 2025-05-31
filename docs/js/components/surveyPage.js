@@ -6,6 +6,7 @@ const surveyPage = {
   components: {
     'survey-page-assessment': surveyPageAssessment,
   },
+  emits: ['notify-assessments-getter', 'notify-restorer', 'notify-max-total-score', 'update-total-score', 'update-assessments'],
   data() {
     return {
       name: `no name`,
