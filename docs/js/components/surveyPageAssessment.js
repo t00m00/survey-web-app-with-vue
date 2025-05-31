@@ -8,6 +8,7 @@ const surveyPageAssessment = {
       required: true,
     },
   },
+  emits: ['notify-max-total-score', 'notify-restorer', 'notify-assessments-getter', 'update-total-score', 'update-assessments'],
   data() {
     return {
       assessments: assts.values,
@@ -43,11 +44,12 @@ const surveyPageAssessment = {
               <v-slider
                 class="text-h6"
                 v-model="item.value"
-                :tick-labels="Array.from(Array(item.maxScore + 1), (el, index) => index + '')"
+                :ticks="[...Array(item.maxScore + 1).keys()]"
+                :tick-labels="[...Array(item.maxScore + 1).keys()].map(String)"
                 color="green"
                 :max="item.maxScore"
                 :min="0"
-                ticks="always"
+                show-ticks="always"
                 tick-size="5"
                 step="1"
                 @change="() => {
