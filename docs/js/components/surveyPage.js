@@ -9,7 +9,7 @@ const surveyPage = {
   emits: ['notify-assessments-getter', 'notify-restorer', 'notify-max-total-score', 'update-total-score', 'update-assessments'],
   data() {
     return {
-      name: `no name`,
+      name: `NoName`,
       totalScore: 0,
       maxTotalScore: 0,
       editMode: false,
@@ -27,6 +27,7 @@ const surveyPage = {
           <v-col class="d-flex align-center">
             <v-text-field
               v-model="name"
+              :placeholder="'名前を入力してください'"
               label="名前"
               color="green"
               clearable
@@ -54,7 +55,7 @@ const surveyPage = {
               エクスポート
             </v-btn>
           </v-col>
-          <v-col class="d-flex justify-end"">
+          <v-col class="d-flex justify-end">
             <v-btn
               @click="edit"
             >
@@ -66,14 +67,13 @@ const surveyPage = {
               load
             </v-btn>
             <v-menu
-              top
-              offset-y
+              location="top"
             >
-              <template v-slot:activator="{ on }">
-                <v-btn v-on="on">削除</v-btn>
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props">削除</v-btn>
               </template>
               <v-btn
-                text
+                variant="text"
                 color="error"
                 @click="remove"
               >
