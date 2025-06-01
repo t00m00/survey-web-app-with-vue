@@ -20,4 +20,4 @@ This project is a web application built with Vue.js that allows users to create,
     *   Delete existing assessment items.
 
 ---
-![operation-image](./image/survey-web-app-with-vue_v0.4.0.gif)
+![Survey Web App v0.4.0 Demonstration](./image/survey-web-app-with-vue_v0.4.0.gif)
