@@ -140,7 +140,8 @@ const surveyPageAssessment = {
           ></v-progress-linear>
           <div class="text-center mt-2">
             <span class="text-body-2 opacity-90">
-              達成率: {{ Math.round((totalScore / maxTotalScore) * 100) }}%
+              達成率: {{ maxTotalScore > 0 ? Math.round((totalScore / maxTotalScore) * 100) : 0 }}%
+
             </span>
           </div>
         </div>
