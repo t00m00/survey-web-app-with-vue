@@ -18,19 +18,21 @@ const surveyPage = {
     }
   },
   template: `
-    <div class="my-5">
-      <!-- localStorageList: {{ localStorageList() }} -->
-
-      <h4>feedback</h4>
-      <v-container fluid class='ma-2'>
-        <v-row>
-          <v-col class="d-flex align-center">
+    <div class="survey-container">
+      <h1 class="survey-title">アンケート評価システム</h1>
+      
+      <v-container fluid class="pa-0">
+        <v-row class="mb-4">
+          <v-col>
             <v-text-field
               v-model="name"
-              :placeholder="'名前を入力してください'"
-              label="名前"
-              color="green"
+              placeholder="評価対象者の名前を入力してください"
+              label="評価対象者名"
+              variant="outlined"
+              color="primary"
               clearable
+              prepend-inner-icon="mdi-account"
+              class="name-input"
             >
             </v-text-field>
           </v-col>
@@ -45,41 +47,61 @@ const surveyPage = {
         @update-assessments="save($event)"
       >
       </survey-page-assessment>
-      <!-- <p>親コンポーネントで合計値表示: {{ totalScore }} / {{ maxTotalScore }}</p> -->
-      <v-container>
-        <v-row>
-          <v-col>
+      
+      <v-container class="pa-0 mt-6">
+        <v-row class="mb-4">
+          <v-col cols="12" md="6">
             <v-btn
               @click="exportAssessments(name)"
+              class="modern-btn btn-export"
+              size="large"
+              prepend-icon="mdi-download"
+              block
             >
-              エクスポート
+              評価結果をエクスポート
             </v-btn>
           </v-col>
-          <v-col class="d-flex justify-end">
-            <v-btn
-              @click="edit"
-            >
-              {{ editMode ? "編集中" : "編集" }}
-            </v-btn>
-            <v-btn
-              @click="restore"
-            >
-              load
-            </v-btn>
-            <v-menu
-              location="top"
-            >
-              <template v-slot:activator="{ props }">
-                <v-btn v-bind="props">削除</v-btn>
-              </template>
+          <v-col cols="12" md="6">
+            <div class="d-flex gap-2 justify-end">
               <v-btn
-                variant="text"
-                color="error"
-                @click="remove"
+                @click="edit"
+                class="modern-btn"
+                :class="editMode ? 'btn-success' : 'btn-primary'"
+                variant="flat"
+                :prepend-icon="editMode ? 'mdi-pencil-off' : 'mdi-pencil'"
               >
-                保存データを削除する
+                {{ editMode ? "編集完了" : "項目編集" }}
               </v-btn>
-            </v-menu>
+              <v-btn
+                @click="restore"
+                class="modern-btn btn-primary"
+                variant="outlined"
+                prepend-icon="mdi-upload"
+              >
+                データ読込
+              </v-btn>
+              <v-menu location="top">
+                <template v-slot:activator="{ props }">
+                  <v-btn 
+                    v-bind="props" 
+                    class="modern-btn" 
+                    color="error"
+                    variant="outlined"
+                    icon="mdi-delete"
+                  >
+                  </v-btn>
+                </template>
+                <v-btn
+                  variant="flat"
+                  color="error"
+                  @click="remove"
+                  prepend-icon="mdi-delete-forever"
+                  class="modern-btn"
+                >
+                  保存データを削除
+                </v-btn>
+              </v-menu>
+            </div>
           </v-col>
         </v-row>
       </v-container>
