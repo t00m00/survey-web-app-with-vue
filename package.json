@@ -11,9 +11,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@anthropic-ai/claude-code": "^1.0.9",
-    "@openai/codex": "^0.1.2505291658"
-  }
+  "license": "ISC"
 }

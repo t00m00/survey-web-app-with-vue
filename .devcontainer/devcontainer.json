@@ -1,34 +1,153 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details.
 {
-  "name": "Survey Web App Development",
+  // 開発コンテナの名前（任意）
+  "name": "Vue.js Development in Codespaces",
+
+  // ────────── 1. ビルド設定 ──────────
   "build": {
-    "dockerfile": "Dockerfile"
+    // ビルドコンテキストはリポジトリルート
+    "context": ".."
+    // Dockerfile を使わずベースイメージを指定する場合は "dockerfile" を省略し、"image" プロパティを使う
+    // ここでは Node.js LTS イメージを直接参照
+    // "dockerfile": "Dockerfile"
   },
+
+  // ────────── 2. ベースイメージを使う場合の推奨設定 ──────────
+  // devcontainer.json で Dockerfile ではなく直接イメージを指定する場合は以下のようにする
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
+
+  // ────────── 3. Remote User ──────────
+  // Codespaces 上では "vscode" ユーザーを使うことが推奨される
+  // "remoteUser": "vscode",
+
+  // ────────── 4. コンテナにインストールする機能（Features） ──────────
   "features": {
+    // Node.js LTS をインストール（node-gyp 依存も含む）
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts",
       "nodeGypDependencies": true
     },
+    // Gitクライアントをインストール（必要に応じて利用可）
     "ghcr.io/devcontainers/features/git:1": {},
+    // GitHub CLI をインストール（GitHub Actions などをコンテナ内で使う場合に便利）
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
+
+  // ────────── 5. VS Code の拡張機能・設定 ──────────
   "customizations": {
     "vscode": {
+      // 推奨拡張機能。一覧にない場合は自由に追加可能
       "extensions": [
+        // Vue 3 向け：Vol​ar
         "Vue.volar",
+        // Tailwind CSS のクラス補完
         "bradlc.vscode-tailwindcss",
+        // ESLint
+        "dbaeumer.vscode-eslint",
+        // Prettier
         "esbenp.prettier-vscode",
-        "ms-vscode.vscode-json",
-        "ms-vscode.live-server"
+        // Vetur（Vue 2 を使う場合のみ有効）
+        "octref.vetur",
+        // Vue.js Preview（任意）
+        "fernandoescolar.vscode-vue-preview"
       ],
+      // エディタ設定
       "settings": {
+        // 保存時の自動フォーマット
         "editor.formatOnSave": true,
+        // デフォルトフォーマッターを Prettier に
         "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.tabSize": 2,
-        "files.eol": "\n"
+        // Vue ファイルのインデントをスペース２つ揃えに
+        "[vue]": {
+          "editor.tabSize": 2
+        },
+        // JavaScript/TypeScript ファイルのインデントも同様に統一
+        "[javascript]": {
+          "editor.tabSize": 2
+        },
+        "[typescript]": {
+          "editor.tabSize": 2
+        },
+        // ファイル区切り文字を LF に統一
+        "files.eol": "\n",
+        // ESLint の設定を自動で参照する
+        "eslint.validate": [
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact",
+          "vue"
+        ]
       }
     }
   },
-  "forwardPorts": [8000, 3000, 5000],
-  "postCreateCommand": "npm install",
-  "remoteUser": "vscode"
+
+  // ────────── 6. ポートフォワーディング ──────────
+  // Vue CLI や Vite の開発サーバが内部で使用するポートをあらかじめ開放しておく
+  "forwardPorts": [
+    // Vue CLI デフォルトは 8080
+    8080,
+    // Vite や一部のサンプルでは 3000 を使う場合がある
+    3000
+  ],
+
+  // ────────── 7. 作成後に自動実行するコマンド ──────────
+  // コンテナ起動後に npm install を実行し、依存パッケージをインストールする
+  "postCreateCommand": "npm install && npm install -g @anthropic-ai/claude-code && npm install -g @openai/codex"
+
+  // ────────── 8. ワークスペースフォルダ ──────────
+  // デフォルトではリポジトリルートが /workspaces/<repo> にマウントされるため省略可
+  // "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+  // ────────── 9. 環境変数（必要に応じて追加） ──────────
+  // "containerEnv": {
+  //   "NODE_ENV": "development"
+  // },
+
+  // ────────── 10. Dockerfile を別途用意する場合のイメージビルド例 ──────────
+  //
+  // もしプロジェクトルートに Dockerfile を配置し、よりカスタマイズしたい場合は、以下の
+  // "build" セクションで Dockerfile を参照してください。
+  //
+  // {
+  //   "build": {
+  //     "context": "..",
+  //     "dockerfile": "Dockerfile"
+  //   },
+  //   "remoteUser": "vscode",
+  //   "features": { ... },
+  //   ...
+  // }
+  //
+  // そして、同じフォルダ（.devcontainer）に以下のような Dockerfile を置きます。
+  //
+  // ── .devcontainer/Dockerfile ──
+  // FROM mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye
+  //
+  // # 追加パッケージ例（必要であれば）
+  // RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+  //     && apt-get -y install --no-install-recommends \
+  //         python3 \
+  //         python3-pip \
+  //     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+  //
+  // # 作業ディレクトリ
+  // WORKDIR /workspace
+  //
+  // # package.json だけ先にコピーしてキャッシュを活用
+  // COPY package*.json ./
+  // RUN npm install
+  //
+  // # 最終的にプロジェクト全体をコピーしつつ vscode ユーザー所有に変更
+  // COPY --chown=vscode:vscode . /workspace
+  //
+  // # vscode ユーザーで実行
+  // USER vscode
+  //
+  // → 以上の Dockerfile を参照することで、さらに細かい環境構築が可能になります。
+
+  // ────────── 11. オプション：GitHub Codespaces のリカバリーモード対策 ──────────
+  // Codespaces がビルドに失敗したときは最小限の Alpine イメージを使って救出コンテナを起動します。
+  // その際に vscode ユーザーが存在しないとエラーになるため、必要に応じて Dockerfile 側で
+  // "vscode" ユーザーを確実に作成する設定を行ってください（ここでは簡略化のため省略）。
 }
