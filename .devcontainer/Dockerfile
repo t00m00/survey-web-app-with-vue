@@ -11,13 +11,13 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 WORKDIR /workspace
 
 # Copy package files
-COPY package*.json ./
+COPY ../package*.json ./
 
 # Install npm dependencies
-RUN npm install
+# RUN npm install
 
 # Create non-root user for development
-RUN groupadd --gid 1000 vscode \
-    && useradd --uid 1000 --gid vscode --shell /bin/bash --create-home vscode
+# RUN groupadd --gid 1000 vscode \
+#     && useradd --uid 1000 --gid vscode --shell /bin/bash --create-home vscode
 
-USER vscode
+# USER vscode
