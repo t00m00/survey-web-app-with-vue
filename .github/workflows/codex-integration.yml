@@ -93,7 +93,7 @@ jobs:
           EOF
 
           # Codex CLIを実行
-          codex --file codex_prompt.md --auto-apply
+          codex --approval-mode full-auto "$(cat codex_prompt.md)"
 
       - name: 変更をコミット
         run: |
