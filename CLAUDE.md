@@ -19,7 +19,7 @@ The app follows a component-based architecture with these key files:
 - `docs/js/main.js` - App initialization and Vuetify setup
 - `docs/js/components/surveyPage.js` - Main container component handling name input, save/load/export functionality
 - `docs/js/components/surveyPageAssessment.js` - Assessment list component with slider controls
-- `docs/js/components/assessments.js` - Assessment data management 
+- `docs/js/components/assessments.js` - Assessment data management
 - `docs/survey.config.js` - Default assessment configuration
 
 ### Data Flow
@@ -60,6 +60,7 @@ cd docs && npx serve .
 ### Making Changes
 
 When modifying assessment logic, focus on:
+
 - `surveyPageAssessment.js` for UI interactions
 - `assessments.js` for data structure
 - `survey.config.js` for default assessment items
@@ -68,3 +69,8 @@ When modifying assessment logic, focus on:
 ### Browser Compatibility
 
 Export functionality requires Chromium-based browsers due to File System Access API usage. The rest of the app works in all modern browsers.
+
+# Constraint
+
+- Read the following files before processing
+  - `.claude/instructions.md`
