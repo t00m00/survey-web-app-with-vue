@@ -85,7 +85,7 @@ jobs:
           - localStorage使用でデータ永続化
           EOF
 
-          codex -a auto-edit --quiet "codex_ga_autonomous_coding_prompt.md の内容に従って"
+          codex -a auto-edit -m gpt-4.1-mini --quiet "codex_ga_autonomous_coding_prompt.md の内容に従って"
 
       - name: 変更をコミット
         run: |
