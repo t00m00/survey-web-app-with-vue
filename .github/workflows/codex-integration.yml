@@ -30,7 +30,7 @@ jobs:
       - name: Node.js環境をセットアップ
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "22"
           cache: "npm"
 
       - name: 依存関係をインストール
@@ -38,7 +38,7 @@ jobs:
 
       - name: Codex CLIをインストール
         run: |
-          npm install -g @openai/codex
+          npm install -g @openai/codex@0.1.2505291658
 
       - name: ブランチ名を生成
         id: branch
