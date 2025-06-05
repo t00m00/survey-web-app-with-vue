@@ -44,13 +44,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PR_NUMBER=${{ steps.pr_info.outputs.number }}
-          # デバッグ
-          echo "${PR_NUMBER}"
           gh pr diff ${PR_NUMBER} > pr_diff.txt
           echo "diff_file=pr_diff.txt" >> $GITHUB_OUTPUT
-
-          # デバッグ
-          cat pr_diff.txt
 
       - name: Node.js環境をセットアップ
         uses: actions/setup-node@v4
@@ -99,9 +94,6 @@ jobs:
           - 改善提案がある場合はコード例も含める
           - 問題ないポイントも評価する
           EOF
-
-          # デバッグ
-          cat codex_ga_review_prompt.md
 
           # Codex CLIでレビューを実行
           REVIEW_RESULT=$(codex -a auto-edit -m gpt-4.1-mini --quiet "$(cat codex_ga_review_prompt.md)")
