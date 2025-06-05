@@ -93,7 +93,7 @@ jobs:
           EOF
 
           # Codex CLIを実行
-          codex --approval-mode full-auto "$(cat codex_prompt.md)"
+          codex -- --approval-mode full-auto --quiet "$(cat codex_prompt.md)"
 
       - name: 変更をコミット
         run: |
@@ -218,7 +218,7 @@ jobs:
           EOF
 
           # Codex CLIでレビューを実行
-          REVIEW_RESULT=$(codex --file review_prompt.md)
+          REVIEW_RESULT=$(codex -- --approval-mode full-auto --quiet "$(cat review_prompt.md)")
           echo "${REVIEW_RESULT}" > review_result.md
 
       - name: レビューコメントを投稿
