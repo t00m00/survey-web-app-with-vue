@@ -1,16 +1,10 @@
-import surveyPage from './components/surveyPage.js'
-
-const app = Vue.createApp({
+new Vue({
+  el: "#app",
+  vuetify: new Vuetify(),
   components: {
-    'survey-page': surveyPage,
-  },  
+    "survey-page": surveyPage,
+  },
   data() {
-    return {
-    }
+    return {};
   },
 });
-
-const vuetify = Vuetify.createVuetify();
-app.use(vuetify);
-
-app.mount('#app');

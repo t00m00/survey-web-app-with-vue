@@ -1,5 +1,3 @@
-import config from './../../survey.config.js'
-
 const appConfig = new class {
   constructor() {
   }
@@ -8,5 +6,3 @@ const appConfig = new class {
     return config.assessments
   }
 }
-
-export default appConfig
