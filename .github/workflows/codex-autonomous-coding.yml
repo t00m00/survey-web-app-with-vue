@@ -125,14 +125,14 @@ jobs:
             --base main \
             --head ${{ steps.branch.outputs.name }}
 
-      - name: 変更概要をまとめる
+      - name: 変更概要をまとめるイベント発火
         env:
           GH_TOKEN: ${{ secrets.OWNER_PAT  }}
         run: |
           gh pr comment ${{ steps.create_pr.outputs.pr_number }} \
             --body "/gemini summary"
 
-      - name: レビュー開始
+      - name: レビュー開始イベント発火
         env:
           GH_TOKEN: ${{ secrets.OWNER_PAT }}
         run: |
