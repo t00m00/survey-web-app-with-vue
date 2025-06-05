@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   autonomous-coding:
-    name: 自律的コーディング
+    name: 自律型コーディング
     runs-on: ubuntu-latest
     if: github.event.action == 'labeled' && contains(github.event.label.name, 'codex')
 
