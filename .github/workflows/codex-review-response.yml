@@ -1,0 +1,47 @@
+name: Codex CLI review response
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  actions: write
+
+jobs:
+  review-response:
+    name: レビュー応答処理
+    runs-on: ubuntu-latest
+    if: |
+      contains(github.event.review.body, '@codex')
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: レビューコメントに応答
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REVIEW_BODY="${{ github.event.review.body }}"
+          PR_NUMBER=${{ github.event.pull_request.number }}
+
+          cat > response.md << 'EOF'
+          ## 🤖 Codex レビュー応答
+
+          レビューありがとうございます！
+
+          **レビュー内容:**
+          ${REVIEW_BODY}
+
+          **対応方針:**
+          ご指摘いただいた点について確認し、必要に応じて修正いたします。
+          追加の@codexレビュー要求がありましたら、コメントでお知らせください。
+
+          ---
+          *この応答はCodex CLIによって自動生成されました*
+          EOF
+
+          gh pr comment ${PR_NUMBER} --body-file response.md
