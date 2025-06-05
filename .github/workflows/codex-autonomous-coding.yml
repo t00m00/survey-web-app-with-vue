@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   autonomous-coding:
-    name: 自律的コーディング
+    name: 自律型コーディング
     runs-on: ubuntu-latest
     if: github.event.action == 'labeled' && contains(github.event.label.name, 'codex')
 
@@ -89,7 +89,7 @@ jobs:
           ls
           pwd
 
-          codex -a auto-edit -m gpt-4.1-mini --quiet "$(cat codex_ga_autonomous_coding_prompt.md)"
+          codex -a auto-edit --quiet "$(cat codex_ga_autonomous_coding_prompt.md)"
 
       - name: 変更をコミット
         run: |

@@ -53,11 +53,6 @@ jobs:
           node-version: "lts/*"
           cache: "npm"
 
-      - name: Codex CLIをインストール
-        run: |
-          npm install -g @openai/codex
-          export OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}"
-
       - name: コードレビューを実行
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -102,6 +97,10 @@ jobs:
           REVIEW_RESULT=$(codex -a auto-edit -m gpt-4.1-mini --quiet "$(cat codex_ga_review_prompt.md)")
           echo "${REVIEW_RESULT}" > codex_ga_review_result.md
 
+          # Codex CLIでレビュー結果を整形
+          REVIEW_RESULT_FORMATTED=$(codex -a auto-edit -m gpt-4.1-mini --quiet "このあとに続くJSONをMarkdownに変換し、人間が**いい感じ**と思うレイアウトにしてください。 ${REVIEW_RESULT}")
+          echo "${REVIEW_RESULT_FORMATTED}" > codex_ga_review_result_formatted.md
+
       - name: レビューコメントを投稿
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -111,7 +110,7 @@ jobs:
           cat > codex_ga_final_comment.md <<EOF
           ## 🤖 Codex レビュー結果
 
-          $(cat codex_ga_review_result.md)
+          $(cat codex_ga_review_result_formatted.md)
 
           ---
           *このレビューはCodex CLIによって自動生成されました*
