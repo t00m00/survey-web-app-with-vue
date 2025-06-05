@@ -1,4 +1,5 @@
 import surveyPageAssessment from './surveyPageAssessment.js'
+const { ref } = Vue
 
 const localStorageKey = 'key'
 
@@ -6,15 +7,82 @@ const surveyPage = {
   components: {
     'survey-page-assessment': surveyPageAssessment,
   },
-  emits: ['notify-assessments-getter', 'notify-restorer', 'notify-max-total-score', 'update-total-score', 'update-assessments'],
-  data() {
+  setup() {
+    const name = ref('NoName')
+    const totalScore = ref(0)
+    const maxTotalScore = ref(0)
+    const editMode = ref(false)
+    const assessmentGetter = ref(() => ({}))
+    const assessmentRestorer = ref(() => {})
+
+    const save = (assessments) => {
+      const surveyData = { name: name.value, assessments }
+      localStorage.setItem(localStorageKey, JSON.stringify(surveyData))
+    }
+
+    const restore = () => {
+      const tmp = localStorage.getItem(localStorageKey)
+      if (!tmp) return
+      const surveyData = JSON.parse(tmp)
+      name.value = surveyData.name
+      assessmentRestorer.value(surveyData.assessments)
+    }
+
+    const remove = () => {
+      localStorage.removeItem(localStorageKey)
+    }
+
+    const edit = () => {
+      editMode.value = !editMode.value
+    }
+
+    const exportAssessments = async (fileName) => {
+      try {
+        const fileSystemHandle = await window.showSaveFilePicker({
+          suggestedName: `${fileName}.json`
+        })
+        const src = { name: name.value, assessments: assessmentGetter.value() }
+        const blob = new Blob([JSON.stringify(src)], { type: 'application/json;charset=utf-8' })
+        const stream = await fileSystemHandle.createWritable()
+        await stream.write(blob)
+        await stream.close()
+        console.log(`success: エクスポート. ${fileName}`)
+      } catch (ex) {
+        console.log('DOMExceptionの場合はエクスポートをキャンセル')
+        console.log(ex)
+      }
+    }
+
+    const onNotifyAssessmentsGetter = (getter) => {
+      assessmentGetter.value = getter
+    }
+    const onNotifyRestorer = (restorer) => {
+      assessmentRestorer.value = restorer
+    }
+    const onNotifyMaxTotalScore = (score) => {
+      maxTotalScore.value = score
+    }
+    const onUpdateTotalScore = (score) => {
+      totalScore.value = score
+    }
+    const onUpdateAssessments = (assessments) => {
+      save(assessments)
+    }
+
     return {
-      name: `NoName`,
-      totalScore: 0,
-      maxTotalScore: 0,
-      editMode: false,
-      assessmentGetter: () => { return {} },
-      assessmentRestorer: () => {},
+      name,
+      totalScore,
+      maxTotalScore,
+      editMode,
+      edit,
+      restore,
+      remove,
+      exportAssessments,
+      onNotifyAssessmentsGetter,
+      onNotifyRestorer,
+      onNotifyMaxTotalScore,
+      onUpdateTotalScore,
+      onUpdateAssessments
     }
   },
   template: `
@@ -40,11 +108,11 @@ const surveyPage = {
       </v-container>
       <survey-page-assessment
         :editMode="editMode"
-        @notify-assessments-getter="assessmentGetter = $event"
-        @notify-restorer="assessmentRestorer = $event"
-        @notify-max-total-score="maxTotalScore = $event"
-        @update-total-score="totalScore = $event"
-        @update-assessments="save($event)"
+        @notify-assessments-getter="onNotifyAssessmentsGetter"
+        @notify-restorer="onNotifyRestorer"
+        @notify-max-total-score="onNotifyMaxTotalScore"
+        @update-total-score="onUpdateTotalScore"
+        @update-assessments="onUpdateAssessments"
       >
       </survey-page-assessment>
       
@@ -107,69 +175,6 @@ const surveyPage = {
       </v-container>
     </div>
   `,
-  methods: {
-    localStorageList() {
-      // 🌟保存されているデータ一覧の表示から再開する 22/12/24🌟
-      const keyLength = localStorage.length
-      return localStorage.length
-    },
-    edit() {
-      this.editMode = !this.editMode
-    },
-    save(assessments) {
-      const surveyPage = {
-        name: this.name,
-        assessments: assessments,
-      }
-
-      localStorage.setItem(localStorageKey, JSON.stringify(surveyPage));
-    },
-    restore() {
-      const tmpSurveyPage = localStorage.getItem(localStorageKey);
-      if (!tmpSurveyPage)
-        return
-
-      const surveyPage = JSON.parse(tmpSurveyPage);
-      this.name = surveyPage.name
-      this.assessmentRestorer(surveyPage.assessments)
-    },
-    remove() {
-      localStorage.removeItem(localStorageKey);
-
-      // 初期化
-      // localStorage.clear()
-    },
-    async exportAssessments(fileName) {
-      try {
-        // TODO: 別クラスへ独立させるリファクタリングをする
-        // Chromium系ブラウザのみサポート
-        const fileSystemHandle = await window.showSaveFilePicker(
-          {
-            suggestedName: `${fileName}.json`
-          })
-
-        const src = Object.assign({},
-          {
-            name: this.name,
-            assessments: this.assessmentGetter()
-          },
-        )
-
-        const exportTarget = JSON.stringify(src) 
-        const blob = new Blob([exportTarget], { type: 'application/json;charset=utf-8' })
-
-        const stream = await fileSystemHandle.createWritable()
-        await stream.write(blob)
-        await stream.close()
-
-        console.log(`success: エクスポート. ${fileName}`)
-      }
-      catch(ex) {
-        console.log('DOMExceptionの場合はエクスポートをキャンセル')
-        console.log(ex)
-      }
-    },
-  }
 }
 
 export default surveyPage

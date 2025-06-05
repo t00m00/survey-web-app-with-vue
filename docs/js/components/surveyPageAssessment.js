@@ -1,4 +1,5 @@
 import assts from './assessments.js'
+const { ref, computed, onMounted } = Vue
 
 const surveyPageAssessment = {
   props: {
@@ -9,10 +10,48 @@ const surveyPageAssessment = {
     },
   },
   emits: ['notify-max-total-score', 'notify-restorer', 'notify-assessments-getter', 'update-total-score', 'update-assessments'],
-  data() {
+  setup(props, { emit }) {
+    const assessments = ref(assts.values)
+    const addingMaxScore = ref(5)
+
+    const totalScore = computed(() =>
+      assessments.value.map(item => item.value).reduce((acc, v) => acc + v, 0)
+    )
+    const maxTotalScore = computed(() =>
+      assessments.value.map(item => item.maxScore).reduce((acc, v) => acc + v, 0)
+    )
+
+    const getAssessments = () => assessments.value
+    const restore = (vals) => {
+      if (!vals) return
+      assessments.value = vals
+    }
+
+    const updateTotalScore = () => emit('update-total-score', totalScore.value)
+    const updateAssessments = () => emit('update-assessments', assessments.value)
+    const add = (score) => assts.add(score)
+    const remove = (key) => {
+      assts.remove(key)
+      assessments.value = assts.values
+    }
+
+    onMounted(() => {
+      emit('notify-max-total-score', maxTotalScore.value)
+      emit('notify-restorer', restore)
+      emit('notify-assessments-getter', getAssessments)
+    })
+
     return {
-      assessments: assts.values,
-      addingMaxScore: 5
+      assessments,
+      addingMaxScore,
+      totalScore,
+      maxTotalScore,
+      getAssessments,
+      restore,
+      updateTotalScore,
+      updateAssessments,
+      add,
+      remove
     }
   },
   template: `
@@ -148,56 +187,6 @@ const surveyPageAssessment = {
       </v-container>
     </div>
   `,
-  computed: {
-    totalScore: {
-      get() {
-        return this.assessments
-          .map((item) => item.value)
-          .reduce((acc, currenctValue) =>  acc + currenctValue, 0)
-      }
-    },
-    maxTotalScore: {
-      get() {
-        return this.assessments
-          .map((item) => item.maxScore)
-          .reduce((acc, currenctValue) =>  acc + currenctValue, 0)
-      }
-    },
-  },
-  mounted() {
-    this.$nextTick(function() {
-      this.$emit('notify-max-total-score', this.maxTotalScore)
-      this.$emit('notify-restorer', this.restore)
-      this.$emit('notify-assessments-getter', this.getAssessments)
-    });
-  },
-  methods: {
-    getAssessments() {
-      if (!this.assessments)
-        return {}
-
-      return this.assessments
-    },
-    restore(assessments) {
-      if (!assessments)
-        return
-
-      this.assessments = assessments
-    },
-    updateTotalScore() {
-      this.$emit('update-total-score', this.totalScore)
-    },
-    updateAssessments() {
-      this.$emit('update-assessments', this.assessments)
-    },
-    add(addingMaxScore) {
-      assts.add(addingMaxScore)
-    },
-    remove(key) {
-      assts.remove(key)
-      this.assessments = assts.values
-    },
-  }
 }
 
 export default surveyPageAssessment
