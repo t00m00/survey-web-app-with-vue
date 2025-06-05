@@ -1,0 +1,17 @@
+# .github/workflows/request-bot-review.yml
+name: "Request gemini-code-assist Bot Review"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  request-review:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Request review from Gemini Code Assist
+        uses: peter-evans/request-review@v3
+        with:
+          reviewers: gemini-code-assist[bot]
