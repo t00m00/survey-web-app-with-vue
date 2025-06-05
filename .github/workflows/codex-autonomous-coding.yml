@@ -122,6 +122,7 @@ jobs:
           - 必要に応じて調整してください
 
           Closes #${{ github.event.issue.number }}" \
+          /gemini summary \
+          /gemini review \
             --base main \
-            --head ${{ steps.branch.outputs.name }} \
-            --reviewer gemini-code-assist[bot]
+            --head ${{ steps.branch.outputs.name }}
