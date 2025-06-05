@@ -111,7 +111,7 @@ jobs:
           cat > codex_ga_final_comment.md <<EOF
           ## 🤖 Codex レビュー結果
 
-          $(cat codex_ga_review_result.md)
+          $(codex -a auto-edit -m gpt-4.1-mini --quiet "このあとに続くJSONをMarkdownに変換し、人間が**いい感じ**と思うレイアウトにしてください。 $(cat codex_ga_review_result.md)")
 
           ---
           *このレビューはCodex CLIによって自動生成されました*
