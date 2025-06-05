@@ -44,8 +44,13 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PR_NUMBER=${{ steps.pr_info.outputs.number }}
+          # デバッグ
+          echo "${PR_NUMBER}"
           gh pr diff ${PR_NUMBER} > pr_diff.txt
           echo "diff_file=pr_diff.txt" >> $GITHUB_OUTPUT
+
+          # デバッグ
+          cat pr_diff.txt
 
       - name: Node.js環境をセットアップ
         uses: actions/setup-node@v4
@@ -61,6 +66,8 @@ jobs:
           npm install -g @openai/codex
           export OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}"
 
+          DIFF_INFO=$(cat ${{ steps.pr_diff.outputs.diff_file }})
+
           # レビュープロンプトを準備
           cat > codex_ga_review_prompt.md <<EOF
           ## コードレビュー要求
@@ -74,9 +81,9 @@ jobs:
           ${{ steps.pr_info.outputs.data }}
 
           ### ファイル差分:
-          ```diff
-          $(cat ${{ steps.pr_diff.outputs.diff_file }})
-          ```
+          \`\`\`diff
+          ${DIFF_INFO}
+          \`\`\`
 
           ### レビュー観点:
           1. CODEX.mdの設計方針に従っているか
@@ -93,13 +100,18 @@ jobs:
           - 問題ないポイントも評価する
           EOF
 
+          # デバッグ
+          cat codex_ga_review_prompt.md
+
           # Codex CLIでレビューを実行
           REVIEW_RESULT=$(codex -a auto-edit -m gpt-4.1-mini --quiet "$(cat codex_ga_review_prompt.md)")
-          echo "${REVIEW_RESULT}" > codex_ga_review_result.md
+          echo "${REVIEW_RESULT}" > codex_ga_review_result.json
 
-          # Codex CLIでレビュー結果を整形
-          REVIEW_RESULT_FORMATTED=$(codex -a auto-edit -m gpt-4.1-mini --quiet "このあとに続くJSONをMarkdownに変換し、人間が**いい感じ**と思うレイアウトにしてください。 ${REVIEW_RESULT}")
-          echo "${REVIEW_RESULT_FORMATTED}" > codex_ga_review_result_formatted.md
+      - name: Extract output_text via jq and save to file
+        run: |
+          jq -r '.. | objects | select(.type == "output_text") | .text' codex_ga_review_result.json > codex_ga_review_result_extracted.txt
+
+          # REVIEW_RESULT_EXT=$(cat codex_ga_review_result_extracted.txt)
 
       - name: レビューコメントを投稿
         env:
@@ -110,7 +122,7 @@ jobs:
           cat > codex_ga_final_comment.md <<EOF
           ## 🤖 Codex レビュー結果
 
-          $(cat codex_ga_review_result_formatted.md)
+          $(cat codex_ga_review_result_extracted.txt)
 
           ---
           *このレビューはCodex CLIによって自動生成されました*
