@@ -121,8 +121,20 @@ jobs:
           - レビューをお願いします
           - 必要に応じて調整してください
 
-          Closes #${{ github.event.issue.number }} \
-          /gemini summary \
-          /gemini review" \
+          Closes #${{ github.event.issue.number }}" \
             --base main \
             --head ${{ steps.branch.outputs.name }}
+
+      - name: 概要をまとめる
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ steps.create_pr.outputs.pr_number }} \
+            --body "/gemini summary"
+
+      - name: レビュー開始
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ steps.create_pr.outputs.pr_number }} \
+            --body "/gemini review"
