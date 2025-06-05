@@ -89,7 +89,7 @@ jobs:
           - localStorage使用でデータ永続化
           EOF
 
-          codex -a auto-edit --quiet "カレントディレクトリのファイル構造教えて"
+          codex -a auto-edit --quiet "codex_prompt.md の内容に従って"
 
       - name: 変更をコミット
         run: |
