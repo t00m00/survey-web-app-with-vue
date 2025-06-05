@@ -69,7 +69,7 @@ jobs:
           ISSUE_TITLE: ${{ steps.issue_content.outputs.title }}
           ISSUE_BODY: ${{ steps.issue_content.outputs.body }}
         run: |
-          codex "日本語で「みたよと」コミットメッセージを記載してください"
+          codex --quiet "日本語で「みたよと」コメントに記載してください"
 
       - name: 変更をコミット
         run: |
