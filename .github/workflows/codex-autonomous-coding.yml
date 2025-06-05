@@ -123,4 +123,5 @@ jobs:
 
           Closes #${{ github.event.issue.number }}" \
             --base main \
-            --head ${{ steps.branch.outputs.name }}
+            --head ${{ steps.branch.outputs.name }} \
+            --reviewer gemini-code-assist[bot]
