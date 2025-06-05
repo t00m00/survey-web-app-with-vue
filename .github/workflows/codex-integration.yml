@@ -40,6 +40,10 @@ jobs:
         run: |
           npm install -g @openai/codex@0.1.2505291658
 
+      - name: Codex CLIをversion確認
+        run: |
+          codex --version
+
       - name: ブランチ名を生成
         id: branch
         run: |
@@ -153,7 +157,7 @@ jobs:
 
       - name: Codex CLIをインストール
         run: |
-          npm install -g @openai/codex-cli
+          npm install -g @openai/codex
           # または適切なCodex CLIのインストール方法
 
       - name: コードレビューを実行
