@@ -49,9 +49,7 @@
         // Vetur（Vue 2 を使う場合のみ有効）
         "octref.vetur",
         // Vue.js Preview（任意）
-        "fernandoescolar.vscode-vue-preview",
-        // GitHub ActionsのワークフローをVS Code内で操作するための拡張機能です。
-        "github.vscode-github-actions"
+        "fernandoescolar.vscode-vue-preview"
       ],
       // エディタ設定
       "settings": {
