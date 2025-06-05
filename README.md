@@ -1,3 +1,20 @@
+\n+\n+---
+# 日本語での説明
+\n+このプロジェクトは、Vue.js を使用して構築されたウェブアプリケーションであり、ユーザーがアンケートを作成、完了、管理できるようにします。回答の保存、アンケート質問の編集、およびデータのエクスポート機能を提供します。
+\n+* ウェブサイト
+  [https://t00m00.github.io/survey-web-app-with-vue/](https://t00m00.github.io/survey-web-app-with-vue/)
+\n+## 機能
+\n+*   アンケートの名前を入力します。
+*   ブラウザの `localStorage` にアンケートの回答を自動保存します。
+*   以前に保存したアンケートデータを `localStorage` から読み込みます。
+*   `localStorage` から保存したアンケートデータを削除します。
+*   アンケートの回答を JSON ファイルとしてエクスポートします。
+*   個々のアセスメント項目のスコアをスライダーで表示および調整します。
+*   アンケートの合計スコアと最大スコアを表示します。
+*   「編集モード」を有効にして、アセスメント項目の管理を行えます。これにより以下が可能です:
+    *   既存のアセスメント項目の視点（質問文やラベルの文言）を変更します。
+    *   カスタマイズ可能な最大スコア（1〜10）で新しいアセスメント項目を追加します。
+    *   既存のアセスメント項目を削除します。
 # Survey Web App with Vue.js
 
 This project is a web application built with Vue.js that allows users to create, complete, and manage surveys. It provides features for saving responses, editing survey questions, and exporting data.
