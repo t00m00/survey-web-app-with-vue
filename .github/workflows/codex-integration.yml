@@ -39,7 +39,6 @@ jobs:
       - name: Codex CLIをインストール
         run: |
           npm install -g @openai/codex
-          # または適切なCodex CLIのインストール方法
 
       - name: ブランチ名を生成
         id: branch
@@ -70,30 +69,7 @@ jobs:
           ISSUE_TITLE: ${{ steps.issue_content.outputs.title }}
           ISSUE_BODY: ${{ steps.issue_content.outputs.body }}
         run: |
-          # Codex CLI用のプロンプトを準備
-          cat > codex_prompt.md << 'EOF'
-          プロジェクト: Vue 3 アンケート/アセスメント Web アプリケーション
-
-          ## Issue内容:
-          タイトル: ${ISSUE_TITLE}
-          説明: ${ISSUE_BODY}
-
-          ## 指示:
-          1. CODEX.mdの内容を確認し、プロジェクトアーキテクチャを理解してください
-          2. Issue要求を満たすコードを実装してください
-          3. 既存のコード規約に従ってください
-          4. 必要に応じてテストも追加してください
-          5. 日本語でコミットメッセージを記載してください
-
-          ## 制約:
-          - Vue 3 Composition API + Vuetify 3を使用
-          - ES6モジュールでコンポーネント構成
-          - CDN経由で読み込むためビルド不要
-          - localStorage使用でデータ永続化
-          EOF
-
-          # Codex CLIを実行
-          codex -- --approval-mode full-auto --quiet "$(cat codex_prompt.md)"
+          codex "日本語で「みたよと」コミットメッセージを記載してください"
 
       - name: 変更をコミット
         run: |
