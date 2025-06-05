@@ -121,8 +121,8 @@ jobs:
           - レビューをお願いします
           - 必要に応じて調整してください
 
-          Closes #${{ github.event.issue.number }}" \
+          Closes #${{ github.event.issue.number }} \
           /gemini summary \
-          /gemini review \
+          /gemini review" \
             --base main \
             --head ${{ steps.branch.outputs.name }}
