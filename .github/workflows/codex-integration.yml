@@ -67,8 +67,7 @@ jobs:
         run: |
           npm install -g @openai/codex@0.1.2505291658
           export OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}"
-
-          codex -a auto-edit --quiet "codex_prompt.md の指示を実行して"
+          codex -a auto-edit --quiet "カレントディレクトリのファイル構造教えて"
 
       - name: 変更をコミット
         run: |
