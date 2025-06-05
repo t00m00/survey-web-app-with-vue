@@ -74,6 +74,7 @@ jobs:
           ISSUE_BODY: ${{ steps.issue_content.outputs.body }}
         run: |
           codex --version
+          codex --quiet "hello"
 
       - name: 変更をコミット
         run: |
