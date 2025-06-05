@@ -83,13 +83,18 @@ jobs:
           - ES6モジュールでコンポーネント構成
           - CDN経由で読み込むためビルド不要
           - localStorage使用でデータ永続化
+          - ファイルを作成、変更した際に確実に保存できていることを確認する
           EOF
 
-          codex -a auto-edit -m gpt-4.1-mini --quiet "codex_ga_autonomous_coding_prompt.md の内容に従って"
+          ls
+          pwd
+
+          codex -a auto-edit -m gpt-4.1-mini --quiet "$(cat codex_ga_autonomous_coding_prompt.md)"
 
       - name: 変更をコミット
         run: |
           git add .
+          git status --short
           if git diff --staged --quiet; then
             echo "変更がありません"
             exit 0
