@@ -73,7 +73,6 @@ jobs:
           ISSUE_TITLE: ${{ steps.issue_content.outputs.title }}
           ISSUE_BODY: ${{ steps.issue_content.outputs.body }}
         run: |
-          npm install -g @openai/codex
           export OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}"
           codex -a auto-edit --quiet "カレントディレクトリのファイル構造教えて"
 
