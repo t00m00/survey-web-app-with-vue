@@ -66,6 +66,7 @@ jobs:
           ISSUE_BODY: ${{ steps.issue_content.outputs.body }}
         run: |
           npm install -g @openai/codex@0.1.2505291658
+          export OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}"
 
           cat > codex_prompt.md << 'EOF'
           プロジェクト: Vue 3 アンケート/アセスメント Web アプリケーション
