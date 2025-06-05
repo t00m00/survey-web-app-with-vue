@@ -101,8 +101,6 @@ jobs:
         run: |
           jq -r '.. | objects | select(.type == "output_text") | .text' codex_ga_review_result.json > codex_ga_review_result_extracted.txt
 
-          # デバッグ
-          cat codex_ga_review_result_extracted.txt
           REVIEW_RESULT_EXT=$(cat codex_ga_review_result_extracted.txt)
 
           # Codex CLIでレビュー結果を整形
@@ -117,6 +115,9 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PR_NUMBER=${{ steps.pr_info.outputs.number }}
+
+          # デバッグ
+          cat codex_ga_review_result_markdown.md
 
           cat > codex_ga_final_comment.md <<EOF
           ## 🤖 Codex レビュー結果
