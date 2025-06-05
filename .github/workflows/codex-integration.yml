@@ -73,8 +73,7 @@ jobs:
           ISSUE_TITLE: ${{ steps.issue_content.outputs.title }}
           ISSUE_BODY: ${{ steps.issue_content.outputs.body }}
         run: |
-          codex --version
-          codex --quiet "hello"
+          codex -a auto-edit --quiet "カレントディレクトリのファイル構造教えて"
 
       - name: 変更をコミット
         run: |
