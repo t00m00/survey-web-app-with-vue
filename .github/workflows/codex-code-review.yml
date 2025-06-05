@@ -112,7 +112,7 @@ jobs:
           cat > codex_ga_final_comment.md <<EOF
           ## 🤖 Codex レビュー結果
 
-          $(cat codex_ga_review_result_extracted.md)
+          $(cat codex_ga_review_result_extracted.txt)
 
           ---
           *このレビューはCodex CLIによって自動生成されました*
