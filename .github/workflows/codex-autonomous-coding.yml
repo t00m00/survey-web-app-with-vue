@@ -89,7 +89,7 @@ jobs:
           ls
           pwd
 
-          codex -a auto-edit -m gpt-4.1-mini --quiet "$(cat codex_ga_autonomous_coding_prompt.md)"
+          codex -a auto-edit --quiet "$(cat codex_ga_autonomous_coding_prompt.md)"
 
       - name: 変更をコミット
         run: |
