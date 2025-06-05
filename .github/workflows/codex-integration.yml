@@ -30,16 +30,11 @@ jobs:
       - name: Node.js環境をセットアップ
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "22"
           cache: "npm"
 
       - name: 依存関係をインストール
         run: npm ci
-
-      - name: Codex CLIをインストール
-        run: |
-          npm install -g @openai/codex
-          # または適切なCodex CLIのインストール方法
 
       - name: ブランチ名を生成
         id: branch
@@ -70,8 +65,10 @@ jobs:
           ISSUE_TITLE: ${{ steps.issue_content.outputs.title }}
           ISSUE_BODY: ${{ steps.issue_content.outputs.body }}
         run: |
-          # Codex CLI用のプロンプトを準備
-          cat > codex_prompt.md << 'EOF'
+          npm install -g @openai/codex
+          export OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}"
+
+          cat > codex_ga_autonomous_coding_prompt.md << 'EOF'
           プロジェクト: Vue 3 アンケート/アセスメント Web アプリケーション
 
           ## Issue内容:
@@ -92,8 +89,7 @@ jobs:
           - localStorage使用でデータ永続化
           EOF
 
-          # Codex CLIを実行
-          codex -- --approval-mode full-auto --quiet "$(cat codex_prompt.md)"
+          codex -a auto-edit --quiet "codex_ga_autonomous_coding_prompt.md の内容に従って"
 
       - name: 変更をコミット
         run: |
@@ -177,7 +173,7 @@ jobs:
 
       - name: Codex CLIをインストール
         run: |
-          npm install -g @openai/codex-cli
+          npm install -g @openai/codex
           # または適切なCodex CLIのインストール方法
 
       - name: コードレビューを実行
