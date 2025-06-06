@@ -21,7 +21,7 @@ const surveyPage = {
     <div class="my-5">
       <!-- localStorageList: {{ localStorageList() }} -->
 
-      <h4>feedback</h4>
+      <h4>📝アンケート</h4>
       <v-container fluid class='ma-2'>
         <v-row>
           <v-col class="d-flex align-center">
