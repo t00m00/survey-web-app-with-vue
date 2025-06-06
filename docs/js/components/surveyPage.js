@@ -139,7 +139,7 @@ const surveyPage = {
 
         const stream = await fileSystemHandle.createWritable();
         await stream.write(blob);
-        await stream.close;
+        await stream.close();
 
         console.log(`success: エクスポート. ${fileName}`);
       } catch (ex) {
