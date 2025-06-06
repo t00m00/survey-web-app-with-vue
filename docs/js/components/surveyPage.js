@@ -69,8 +69,8 @@ const surveyPage = {
               top
               offset-y
             >
-              <template v-slot:activator="{ on }">
-                <v-btn v-on="on">削除</v-btn>
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props">削除</v-btn>
               </template>
               <v-btn
                 text
